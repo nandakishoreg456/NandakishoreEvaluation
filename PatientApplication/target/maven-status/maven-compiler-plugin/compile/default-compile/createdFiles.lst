@@ -1,0 +1,6 @@
+com\hospital\patient\beans\Patient.class
+com\hospital\patient\PatientApplication.class
+com\hospital\patient\service\PatientService.class
+com\hospital\patient\controller\PatientController.class
+com\hospital\patient\repository\PatientRepository.class
+com\hospital\patient\service\PatientServiceImpl.class
