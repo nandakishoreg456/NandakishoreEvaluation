@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
 		
 	}
 	
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException exception) {
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse(new Date(), exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleException(Exception exception) {
 		return new ResponseEntity<ErrorResponse>(new ErrorResponse(new Date(), exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

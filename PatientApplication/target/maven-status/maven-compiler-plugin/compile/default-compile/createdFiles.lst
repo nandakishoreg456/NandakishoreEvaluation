@@ -1,3 +1,4 @@
+com\hospital\patient\exception\BusinessException.class
 com\hospital\patient\beans\Patient.class
 com\hospital\patient\exception\ErrorResponse.class
 com\hospital\patient\PatientApplication.class

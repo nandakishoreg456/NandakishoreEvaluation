@@ -1,13 +1,13 @@
 package com.hospital.patient.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hospital.patient.beans.Patient;
+import com.hospital.patient.exception.BusinessException;
 import com.hospital.patient.exception.DataNotFoundException;
 import com.hospital.patient.repository.PatientRepository;
 
@@ -28,7 +28,13 @@ public class PatientServiceImpl implements PatientService{
 	*/
 	public List<Patient> getPatientDetails() {
 		
-		return patientRepository.findAll();
+		 List<Patient> patientsList = patientRepository.findAll();
+		 
+		 if(patientsList == null || (patientsList != null && patientsList.isEmpty())) {
+			 throw new BusinessException("Patients data is empty");
+		 }
+		 
+		 return patientsList;
 	}
 
 	/** Creates the patient.
@@ -37,7 +43,13 @@ public class PatientServiceImpl implements PatientService{
 	*/	
 	@Override
 	public Patient createPatient(Patient patient) {
-		return patientRepository.save(patient);
+		try {
+			return patientRepository.save(patient);
+		} catch(Exception e) {
+			throw new BusinessException("Save operation failed for Id:"+patient.getId()+""
+					+ ", due to"+ e.getMessage());
+		}
+		
 	}
 
 	/** Gets the patient's details based on the passed input - identifier or name
@@ -46,16 +58,16 @@ public class PatientServiceImpl implements PatientService{
 	*/	
 	@Override
 	public Patient getPatientDetailsByInput(String input) {
-		Optional<Patient> patient = null;
+		Patient patient = null;
 		
 		
 		if(StringUtils.isNumeric(input)) { 
-			patient =  Optional.ofNullable(patientRepository.findById(Integer.parseInt(input)).orElseThrow(() -> new DataNotFoundException("Data not found for ", "id", input))); 
+			patient =  patientRepository.findById(Integer.parseInt(input)).orElseThrow(() -> new DataNotFoundException("Data not found for ", "id", input)); 
 		} else { 
-			patient =  Optional.ofNullable(patientRepository.findByName(input).orElseThrow(() -> new DataNotFoundException("Data ", "input", input))); 
+			patient =  patientRepository.findByName(input).orElseThrow(() -> new DataNotFoundException("Data ", "input", input)); 
 		}
 		 
-		return patient.isEmpty()?null:patient.get();
+		return patient;
 	}
 
 	/** Update the patient.
@@ -64,7 +76,13 @@ public class PatientServiceImpl implements PatientService{
 	*/
 	@Override
 	public Patient updatePatient(Patient patient) {
-		return patientRepository.save(patient);
+		try {
+			return patientRepository.save(patient);
+		} catch(Exception e) {
+			throw new BusinessException("Update operation failed for Id:"+patient.getId()+""
+					+ "due to"+ e.getMessage());
+		}
+		
 	}
 
 	/** delete the patient.
@@ -76,7 +94,8 @@ public class PatientServiceImpl implements PatientService{
 		try {
 			patientRepository.delete(patient);
 		} catch(Exception e) {
-			return "delete operation failed";
+			throw new BusinessException("Delete operation failed for Id:"+patient.getId() +""
+					+ "due to"+ e.getMessage());
 		}
 		return "Delete Successfully";
 		
