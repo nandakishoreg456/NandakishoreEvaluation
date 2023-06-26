@@ -2,6 +2,12 @@ package com.hospital.patient.exception;
 
 import java.util.Date;
 
+/** Represents a Patient.
+ * @author Nanda Kishore Reddy Gangireddygari
+ * @author nandakishoreg456@gmail.com
+ * @version 1.2
+ * @since 1.0
+*/
 public class ErrorResponse {
 
 	private Date timeStamp;
@@ -23,8 +29,6 @@ public class ErrorResponse {
 		this.errorMessage = errorMessage;
 	}
 
-	public ErrorResponse() {}
-	
 	public ErrorResponse(Date timeStamp, String errorMessage) {
 		super();
 		this.timeStamp = timeStamp;

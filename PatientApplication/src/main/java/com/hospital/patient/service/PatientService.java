@@ -2,6 +2,7 @@ package com.hospital.patient.service;
 
 import java.util.List;
 
+import com.hospital.patient.beans.DeleteResponse;
 import com.hospital.patient.beans.Patient;
 
 public interface PatientService {
@@ -14,6 +15,6 @@ public interface PatientService {
 	
 	public Patient updatePatient(Patient patient);
 
-	public String deletePatient(Patient patient);
+	public DeleteResponse deletePatient(Patient patient);
 
 }

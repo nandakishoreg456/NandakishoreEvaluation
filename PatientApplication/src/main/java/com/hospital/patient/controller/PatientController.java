@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hospital.patient.beans.DeleteResponse;
 import com.hospital.patient.beans.Patient;
 import com.hospital.patient.service.PatientService;
 
 /** Represents a Patient Controller which have list of patient end points and interacts with Service layer
  * @author Nanda Kishore Reddy Gangireddygari
  * @author nandakishoreg456@gmail.com
- * @version 1.0
+ * @version 1.2
  * @since 1.0
 */
 @RestController
@@ -42,7 +43,7 @@ public class PatientController {
 	 * @param input A which can be either patient's id or name . 
 	*/
 	@GetMapping(value="/details/{input}")
-	public Patient patientInformtion(@PathVariable String input) {
+	public Patient patientInformtionByInput(@PathVariable String input) {
 		return patientService.getPatientDetailsByInput(input);
 	}
 	
@@ -69,7 +70,7 @@ public class PatientController {
 	 * @param patient A Patient containing the fields id, name, dob, address, primary_phoneNumber, secondary_phoneNumber . 
 	*/	
 	@DeleteMapping(value="/delete")
-	public String deletePatient(@RequestBody Patient patient) {
+	public DeleteResponse deletePatient(@RequestBody Patient patient) {
 		return patientService.deletePatient(patient);
 	}
 

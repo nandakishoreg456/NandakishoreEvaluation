@@ -7,6 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/** Represents a Patient.
+ * @author Nanda Kishore Reddy Gangireddygari
+ * @author nandakishoreg456@gmail.com
+ * @version 1.2
+ * @since 1.0
+*/
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

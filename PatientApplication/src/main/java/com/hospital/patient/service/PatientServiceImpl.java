@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hospital.patient.beans.DeleteResponse;
 import com.hospital.patient.beans.Patient;
 import com.hospital.patient.exception.BusinessException;
 import com.hospital.patient.exception.DataNotFoundException;
@@ -14,7 +15,7 @@ import com.hospital.patient.repository.PatientRepository;
 /** Represents a Patient Service which have business and interacts with Repository layer
  * @author Nanda Kishore Reddy Gangireddygari
  * @author nandakishoreg456@gmail.com
- * @version 1.0
+ * @version 1.2
  * @since 1.0
 */
 @Service
@@ -64,7 +65,7 @@ public class PatientServiceImpl implements PatientService{
 		if(StringUtils.isNumeric(input)) { 
 			patient =  patientRepository.findById(Integer.parseInt(input)).orElseThrow(() -> new DataNotFoundException("Data not found for ", "id", input)); 
 		} else { 
-			patient =  patientRepository.findByName(input).orElseThrow(() -> new DataNotFoundException("Data ", "input", input)); 
+			patient =  patientRepository.findByName(input).orElseThrow(() -> new DataNotFoundException("Data not found for ", "name", input)); 
 		}
 		 
 		return patient;
@@ -76,13 +77,17 @@ public class PatientServiceImpl implements PatientService{
 	*/
 	@Override
 	public Patient updatePatient(Patient patient) {
+		Patient patientUpdateResponse = null;
 		try {
-			return patientRepository.save(patient);
+			Patient patientDetails = getPatientDetailsByInput(String.valueOf(patient.getId()));
+			if(patientDetails!= null && patient.getId() == patient.getId()) {
+				patientUpdateResponse = patientRepository.save(patient);
+			}
+			return patientUpdateResponse;	
 		} catch(Exception e) {
 			throw new BusinessException("Update operation failed for Id:"+patient.getId()+""
-					+ "due to"+ e.getMessage());
+					+ ", due to "+ e.getMessage());
 		}
-		
 	}
 
 	/** delete the patient.
@@ -90,15 +95,21 @@ public class PatientServiceImpl implements PatientService{
 	 * @param patient A Patient containing the fields id, name, dob, address, primary_phoneNumber, secondary_phoneNumber . 
 	*/	
 	@Override
-	public String deletePatient(Patient patient) {
+	public DeleteResponse deletePatient(Patient patient) {
+		DeleteResponse deleteResponse = null;
 		try {
-			patientRepository.delete(patient);
-		} catch(Exception e) {
-			throw new BusinessException("Delete operation failed for Id:"+patient.getId() +""
-					+ "due to"+ e.getMessage());
+			Patient patientDetails = getPatientDetailsByInput(String.valueOf(patient.getId()));
+			if(patientDetails!= null && patient.getId() == patient.getId()) {
+				patientRepository.delete(patient);
+				deleteResponse = new DeleteResponse();
+				deleteResponse.setStatus("Success");
+			}
 		}
-		return "Delete Successfully";
-		
+		catch(Exception e) {
+			throw new BusinessException("Delete operation failed for Id: "+patient.getId() +""
+					+ ", due to "+ e.getMessage());
+		}
+		return deleteResponse;
 	}
 
 }

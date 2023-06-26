@@ -128,4 +128,31 @@ public class Patient {
 		this.address = address;
 	}
 	
+
+	public Patient(int id, String name, Date dob, BigInteger primary_phoneNumber, BigInteger secondary_phoneNumber,
+			List<Address> address) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.primary_phoneNumber = primary_phoneNumber;
+		this.secondary_phoneNumber = secondary_phoneNumber;
+		this.address = address;
+	}
+
+	public Patient() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Patient(String name, Date dob, BigInteger primary_phoneNumber, BigInteger secondary_phoneNumber,
+			List<Address> address) {
+		super();
+		this.name = name;
+		this.dob = dob;
+		this.primary_phoneNumber = primary_phoneNumber;
+		this.secondary_phoneNumber = secondary_phoneNumber;
+		this.address = address;
+	}
+	
+	
 }

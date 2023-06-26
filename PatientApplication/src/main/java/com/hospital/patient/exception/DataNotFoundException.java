@@ -1,5 +1,11 @@
 package com.hospital.patient.exception;
 
+/** Represents a Patient.
+ * @author Nanda Kishore Reddy Gangireddygari
+ * @author nandakishoreg456@gmail.com
+ * @version 1.2
+ * @since 1.0
+*/
 public class DataNotFoundException extends RuntimeException {
 	
 	/**
@@ -12,7 +18,7 @@ public class DataNotFoundException extends RuntimeException {
 	private String fieldValue;
 	
 	public DataNotFoundException(String resourceName, String fieldName, String fieldValue) {
-		super(String.format("%s not found with '%s : %s'", resourceName, fieldName, fieldValue));
+		super(String.format("%s '%s : %s'", resourceName, fieldName, fieldValue));
 		this.resourceName = resourceName;
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
